@@ -324,6 +324,21 @@ function displaySessionHistory(sessions) {
     historyDiv.innerHTML = historyHTML;
 }
 
+// Stop video stream
+function stopVideoStream() {
+    if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+        videoStream = null;
+    }
+    isAnalyzing = false;
+}
+
+// Stop analysis
+function stopAnalysis() {
+    stopVideoStream();
+    document.getElementById('loading-modal').style.display = 'none';
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Emotion-Aware Study Assistant loaded');
