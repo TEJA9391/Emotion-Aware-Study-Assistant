@@ -127,6 +127,13 @@ function displayEmotionResults(data) {
 
         resultsSection.style.display = 'block';
         resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+        // Reload session history if on dashboard page
+        if (document.getElementById('session-history')) {
+            setTimeout(() => {
+                loadSessionHistory();
+            }, 1000);
+        }
     } else {
         emotionResults.innerHTML = `
             <div class="error-message">
@@ -250,6 +257,29 @@ function displayVoiceResults(data) {
         `;
         resultsSection.style.display = 'block';
     }
+}
+
+// Dashboard quick analysis functions
+async function quickEmotionCheck() {
+    // Reuse the main emotion analysis function
+    await startEmotionAnalysis();
+    // After analysis completes, reload session history
+    setTimeout(() => {
+        loadSessionHistory();
+    }, 2000);
+}
+
+async function quickVoiceCheck() {
+    // Reuse the main voice analysis function
+    await startVoiceAnalysis();
+}
+
+function refreshStatus() {
+    loadSessionHistory();
+}
+
+function stopCurrentAnalysis() {
+    stopAnalysis();
 }
 
 // Stop video stream

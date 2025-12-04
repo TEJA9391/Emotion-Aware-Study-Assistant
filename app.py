@@ -67,15 +67,39 @@ def analyze_emotion():
         nparr = np.frombuffer(image_bytes, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         
-        # Analyze with DeepFace
-        result = DeepFace.analyze(img, actions=['emotion'], enforce_detection=False)
+        # Debug: Check if image was decoded properly
+        if img is None or img.size == 0:
+            print("Error: Image could not be decoded")
+            return jsonify({
+                'success': False,
+                'error': 'Invalid image data'
+            })
+        
+        print(f"Image shape: {img.shape}")  # Debug output
+        
+        # Analyze with DeepFace - using opencv detector for better accuracy
+        result = DeepFace.analyze(
+            img, 
+            actions=['emotion'], 
+            enforce_detection=False,
+            detector_backend='opencv'
+        )
         
         if isinstance(result, list):
             result = result[0]
         
+        print(f"DeepFace result: {result}")  # Debug output
+        
+        # Convert numpy float32 to regular Python float for JSON serialization
+        emotion_percentages = {k: float(v) for k, v in result['emotion'].items()}
+        
+        # Debug: Print emotion percentages
+        print(f"Emotion percentages: {emotion_percentages}")
+        print(f"Dominant emotion: {result['dominant_emotion']}")
+        
         emotion_result = {
             'dominant_emotion': result['dominant_emotion'],
-            'emotion_percentages': result['emotion'],
+            'emotion_percentages': emotion_percentages,
             'total_detections': 1,
             'session_timestamp': datetime.now().isoformat()
         }
@@ -99,10 +123,12 @@ def analyze_emotion():
         with open(session_file, 'w') as f:
             json.dump(session_data, f, indent=2)
         
+        print(f"Session saved to: {session_file}")
+        
         return jsonify({
             'success': True,
             'emotion': emotion_result['dominant_emotion'],
-            'emotions': emotion_result['emotion_percentages'],
+            'emotions': emotion_percentages,
             'recommendations': recommendations
         })
             
