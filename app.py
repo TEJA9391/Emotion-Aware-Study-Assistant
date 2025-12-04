@@ -115,25 +115,53 @@ def analyze_emotion():
 
 @app.route('/analyze_voice', methods=['POST'])
 def analyze_voice():
-    """Analyze voice tone"""
+    """Analyze voice from uploaded audio"""
     try:
-        duration = request.json.get('duration', 5)
-        
-        # Perform voice analysis
-        voice_result = voice_analyzer.analyze_voice_tone(duration)
-        
-        if voice_result:
+        # Check if this is FormData (audio file) or JSON (transcript)
+        if request.content_type and 'multipart/form-data' in request.content_type:
+            # Audio file uploaded
+            if 'audio' not in request.files:
+                return jsonify({
+                    'success': False,
+                    'error': 'No audio file provided'
+                })
+            
+            audio_file = request.files['audio']
+            
+            # For now, return a simple analysis since we can't easily process audio on server
+            # In production, you'd use speech recognition services
             return jsonify({
                 'success': True,
-                'voice_result': voice_result
+                'text': 'Audio received (server-side transcription not implemented)',
+                'stress_level': 'Medium',
+                'energy_level': 50.0,
+                'message': 'Voice recording successful. Please use browser-based speech recognition for full analysis.'
             })
         else:
+            # JSON data with transcript (from browser speech recognition)
+            data = request.json
+            transcript = data.get('transcript', '')
+            
+            if not transcript:
+                return jsonify({
+                    'success': False,
+                    'error': 'No transcript provided'
+                })
+            
+            # Simple stress analysis based on text
+            word_count = len(transcript.split())
+            stress_level = 'Low' if word_count < 10 else ('Medium' if word_count < 20 else 'High')
+            
             return jsonify({
-                'success': False,
-                'error': 'Could not analyze voice'
+                'success': True,
+                'text': transcript,
+                'stress_level': stress_level,
+                'energy_level': word_count * 5.0,
+                'timestamp': datetime.now().isoformat()
             })
             
     except Exception as e:
+        print(f"Error in voice analysis: {str(e)}")
         return jsonify({
             'success': False,
             'error': str(e)
