@@ -1,0 +1,21 @@
+Warning: Could not import DeepFace. Emotion analysis will be mocked.
+Warning: Could not import EmotionDetector (DeepFace missing?). Using mock class.
+Traceback (most recent call last):
+  File "C:\Users\tejrt\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\speech_recognition\__init__.py", line 104, in get_pyaudio
+    import pyaudio
+ModuleNotFoundError: No module named 'pyaudio'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\tejrt\Emotion-aware-study-Assistant\app.py", line 38, in <module>
+    voice_analyzer = VoiceAnalyzer()
+  File "C:\Users\tejrt\Emotion-aware-study-Assistant\voice_analyzer.py", line 9, in __init__
+    self.microphone = sr.Microphone()
+                      ~~~~~~~~~~~~~^^
+  File "C:\Users\tejrt\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\speech_recognition\__init__.py", line 76, in __init__
+    self.pyaudio_module = self.get_pyaudio()
+                          ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tejrt\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\speech_recognition\__init__.py", line 106, in get_pyaudio
+    raise AttributeError("Could not find PyAudio; check installation")
+AttributeError: Could not find PyAudio; check installation

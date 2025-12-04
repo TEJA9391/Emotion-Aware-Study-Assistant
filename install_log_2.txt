@@ -1,0 +1,71 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting Flask==2.3.0 (from -r requirements.txt (line 1))
+  Using cached Flask-2.3.0-py3-none-any.whl.metadata (3.7 kB)
+Collecting opencv-python==4.8.0.74 (from -r requirements.txt (line 2))
+  Using cached opencv_python-4.8.0.74-cp37-abi3-win_amd64.whl.metadata (19 kB)
+Collecting fer==22.5.1 (from -r requirements.txt (line 3))
+  Using cached fer-22.5.1-py3-none-any.whl.metadata (6.4 kB)
+Collecting numpy==1.24.3 (from -r requirements.txt (line 4))
+  Using cached numpy-1.24.3.tar.gz (10.9 MB)
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  Preparing metadata (pyproject.toml) did not run successfully.
+  exit code: 1
+  
+  [40 lines of output]
+  <string>:52: RuntimeWarning: NumPy 1.24.3 may not yet support Python 3.13.
+  Running from numpy source directory.
+  <string>:67: DeprecationWarning:
+  
+    `numpy.distutils` is deprecated since NumPy 1.23.0, as a result
+    of the deprecation of `distutils` itself. It will be removed for
+    Python >= 3.12. For older Python versions it will remain present.
+    It is recommended to use `setuptools < 60.0` for those Python versions.
+    For more details, see:
+      https://numpy.org/devdocs/reference/distutils_status_migration.html
+  
+  
+  Traceback (most recent call last):
+    File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 389, in <module>
+      main()
+      ~~~~^^
+    File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 373, in main
+      json_out["return_val"] = hook(**hook_input["kwargs"])
+                               ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\site-packages\pip\_vendor\pyproject_hooks\_in_process\_in_process.py", line 175, in prepare_metadata_for_build_wheel
+      return hook(metadata_directory, config_settings)
+    File "C:\Users\tejrt\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\setuptools\build_meta.py", line 374, in prepare_metadata_for_build_wheel
+      self.run_setup()
+      ~~~~~~~~~~~~~~^^
+    File "C:\Users\tejrt\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\setuptools\build_meta.py", line 512, in run_setup
+      super().run_setup(setup_script=setup_script)
+      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\Users\tejrt\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\setuptools\build_meta.py", line 317, in run_setup
+      exec(code, locals())
+      ~~~~^^^^^^^^^^^^^^^^
+    File "<string>", line 82, in <module>
+    File "C:\Users\tejrt\AppData\Local\Temp\pip-install-e76wi4na\numpy_db8596a5bcfe4065bb67751e9c0293d1\numpy\distutils\core.py", line 24, in <module>
+      from numpy.distutils.command import config, config_compiler, \
+      ...<2 lines>...
+           install_clib
+    File "C:\Users\tejrt\AppData\Local\Temp\pip-install-e76wi4na\numpy_db8596a5bcfe4065bb67751e9c0293d1\numpy\distutils\command\config.py", line 19, in <module>
+      from numpy.distutils.mingw32ccompiler import generate_manifest
+    File "C:\Users\tejrt\AppData\Local\Temp\pip-install-e76wi4na\numpy_db8596a5bcfe4065bb67751e9c0293d1\numpy\distutils\mingw32ccompiler.py", line 28, in <module>
+      from distutils.msvccompiler import get_build_version as get_build_msvc_version
+  ModuleNotFoundError: No module named 'distutils.msvccompiler'
+  [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[notice] A new release of pip is available: 25.2 -> 25.3
+[notice] To update, run: C:\Users\tejrt\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\python.exe -m pip install --upgrade pip
+error: metadata-generation-failed
+
+Encountered error while generating package metadata.
+
+See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.

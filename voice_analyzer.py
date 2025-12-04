@@ -6,10 +6,25 @@ from datetime import datetime
 class VoiceAnalyzer:
     def __init__(self):
         self.recognizer = sr.Recognizer()
-        self.microphone = sr.Microphone()
+        self.microphone = None
+        # Lazy initialization of microphone to avoid crash if not available
+        try:
+            self.microphone = sr.Microphone()
+        except Exception as e:
+            print(f"Warning: Could not initialize microphone: {e}")
+            print("Voice analysis will rely on browser-based speech recognition.")
     
     def analyze_voice_tone(self, duration=5):
         """Analyze voice tone and extract features"""
+        if self.microphone is None:
+            return {
+                'text': 'Microphone not available',
+                'energy_level': 0,
+                'zero_crossing_rate': 0,
+                'estimated_stress': 'Unknown',
+                'timestamp': datetime.now().isoformat()
+            }
+        
         try:
             with self.microphone as source:
                 print("Adjusting for ambient noise...")

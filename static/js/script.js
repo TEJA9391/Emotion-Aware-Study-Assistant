@@ -186,9 +186,14 @@ async function startVoiceAnalysis() {
         recognition.lang = 'en-US';
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
+        recognition.continuous = false; // Stop after one result
+
+        let hasResult = false;
 
         recognition.onresult = async (event) => {
+            hasResult = true;
             const transcript = event.results[0][0].transcript;
+            console.log('Transcript:', transcript);
 
             try {
                 const response = await fetch('/analyze_voice', {
@@ -213,11 +218,13 @@ async function startVoiceAnalysis() {
             console.error('Speech recognition error:', event.error);
             let msg = 'Error: ' + event.error;
             if (event.error === 'not-allowed') {
-                msg = 'Microphone access denied. Please allow microphone access.';
+                msg = 'Microphone access denied. Please allow microphone access in your browser settings.';
             } else if (event.error === 'no-speech') {
                 msg = 'No speech detected. Please try again and speak clearly.';
             } else if (event.error === 'network') {
                 msg = 'Network error. Please check your internet connection.';
+            } else if (event.error === 'aborted') {
+                msg = 'Voice recognition was aborted. Please try again.';
             }
             alert(msg);
             document.getElementById('loading-modal').style.display = 'none';
@@ -225,15 +232,28 @@ async function startVoiceAnalysis() {
 
         recognition.onend = () => {
             console.log('Speech recognition ended');
-            // If modal is still open and no result, close it
-            // setTimeout(() => {
-            //     if (document.getElementById('loading-modal').style.display === 'flex') {
-            //         document.getElementById('loading-modal').style.display = 'none';
-            //     }
-            // }, 1000);
+            // If modal is still open and no result was received, show timeout message
+            setTimeout(() => {
+                if (document.getElementById('loading-modal').style.display === 'flex' && !hasResult) {
+                    document.getElementById('loading-modal').style.display = 'none';
+                    alert('Voice analysis session ended. No speech was detected. Please ensure your microphone is working and try again.');
+                }
+            }, 500);
         };
 
+        // Set a maximum timeout of 15 seconds
+        setTimeout(() => {
+            if (!hasResult) {
+                try {
+                    recognition.stop();
+                } catch (e) {
+                    console.log('Recognition already stopped');
+                }
+            }
+        }, 15000);
+
         recognition.start();
+        console.log('Voice recognition started');
 
     } catch (error) {
         console.error('Error:', error);

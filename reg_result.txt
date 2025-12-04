@@ -1,0 +1,2 @@
+ERROR: Invalid key name.
+Type "REG ADD /?" for usage.

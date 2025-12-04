@@ -1,0 +1,142 @@
+Warning: Could not import DeepFace. Emotion analysis will be mocked.
+Warning: Could not import EmotionDetector (DeepFace missing?). Using mock class.
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 213-991-992
+127.0.0.1 - - [04/Dec/2025 15:09:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:09:26] "GET /static/css/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:09:26] "GET /static/js/script.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:09:26] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [04/Dec/2025 15:10:47] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:10:47] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:10:47] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:10:55] "POST /analyze_emotion HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:11:02] "POST /analyze_emotion HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:11:07] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:11:07] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:11:07] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:11:08] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:11:10] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:11:10] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:11:10] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:12:18] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:12:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:12:18] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:12:30] "POST /analyze_emotion HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:14:26] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:14:26] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:14:26] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:14:26] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:14:29] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:14:29] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:14:30] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:14:34] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:14:34] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:14:34] "GET /static/js/script.js HTTP/1.1" 304 -
+ * Detected change in 'C:\\Users\\tejrt\\Emotion-aware-study-Assistant\\app.py', reloading
+Warning: Could not import DeepFace. Emotion analysis will be mocked.
+Warning: Could not import EmotionDetector (DeepFace missing?). Using mock class.
+Image shape: (720, 1280, 3)
+DeepFace result: {'dominant_emotion': 'neutral', 'emotion': {'neutral': 100.0}}
+Emotion percentages: {'neutral': 100.0}
+Dominant emotion: neutral
+Emotion session saved to memory
+Image shape: (720, 1280, 3)
+DeepFace result: {'dominant_emotion': 'neutral', 'emotion': {'neutral': 100.0}}
+Emotion percentages: {'neutral': 100.0}
+Dominant emotion: neutral
+Emotion session saved to memory
+Session history route called
+Returning 2 sessions from memory
+Image shape: (720, 1280, 3)
+DeepFace result: {'dominant_emotion': 'neutral', 'emotion': {'neutral': 100.0}}
+Emotion percentages: {'neutral': 100.0}
+Dominant emotion: neutral
+Emotion session saved to memory
+Session history route called
+Returning 3 sessions from memory
+Session history route called
+Returning 3 sessions from memory
+Session history route called
+Returning 3 sessions from memory
+Session history route called
+Returning 3 sessions from memory
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 213-991-992
+127.0.0.1 - - [04/Dec/2025 15:21:10] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:11] "GET /static/css/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:11] "GET /static/js/script.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:17] "POST /analyze_emotion HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:36] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:36] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:21:36] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:21:36] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:39] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:39] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:45] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:45] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:21:45] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:21:51] "POST /analyze_emotion HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:57] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:21:57] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:21:57] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:21:57] "GET /session_history HTTP/1.1" 200 -
+ * Detected change in 'C:\\Users\\tejrt\\Emotion-aware-study-Assistant\\voice_analyzer.py', reloading
+Warning: Could not import DeepFace. Using OpenCV-based emotion analysis.
+Warning: Could not import EmotionDetector (DeepFace missing?). Using mock class.
+Image shape: (720, 1280, 3)
+DeepFace result: {'dominant_emotion': 'neutral', 'emotion': {'angry': 10.38242430936634, 'disgust': 11.550195567891391, 'fear': 14.660824345294062, 'happy': 11.893484391731572, 'sad': 11.446974941949387, 'surprise': 14.800543582694287, 'neutral': 44.36427914385844}, 'face_detected': False}
+Emotion percentages: {'angry': 10.38242430936634, 'disgust': 11.550195567891391, 'fear': 14.660824345294062, 'happy': 11.893484391731572, 'sad': 11.446974941949387, 'surprise': 14.800543582694287, 'neutral': 44.36427914385844}
+Dominant emotion: neutral
+Emotion session saved to memory
+Session history route called
+Returning 1 sessions from memory
+Session history route called
+Returning 1 sessions from memory
+Session history route called
+Returning 1 sessions from memory
+Image shape: (720, 1280, 3)
+DeepFace result: {'dominant_emotion': 'neutral', 'emotion': {'angry': 14.722730961706162, 'disgust': 14.086525150661675, 'fear': 6.166946119375442, 'happy': 5.781265407002088, 'sad': 14.19572025376641, 'surprise': 11.288550453293887, 'neutral': 56.471549121385195}, 'face_detected': False}
+Emotion percentages: {'angry': 14.722730961706162, 'disgust': 14.086525150661675, 'fear': 6.166946119375442, 'happy': 5.781265407002088, 'sad': 14.19572025376641, 'surprise': 11.288550453293887, 'neutral': 56.471549121385195}
+Dominant emotion: neutral
+Emotion session saved to memory
+Session history route called
+Returning 2 sessions from memory
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 213-991-992
+127.0.0.1 - - [04/Dec/2025 15:27:37] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:27:37] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:27:37] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:28:18] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:28:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:28:18] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:29:43] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:29:44] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:29:44] "GET /static/js/script.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:30:05] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:30:05] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:30:05] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:31:06] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:31:06] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:31:06] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:31:12] "POST /analyze_voice HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:31:19] "POST /analyze_emotion HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:31:22] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 15:31:22] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:31:22] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 15:31:22] "GET /session_history HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 17:37:54] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 17:37:54] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 17:37:54] "GET /static/js/script.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 17:38:01] "POST /analyze_emotion HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 17:38:04] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [04/Dec/2025 17:38:04] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 17:38:04] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [04/Dec/2025 17:38:04] "GET /session_history HTTP/1.1" 200 -

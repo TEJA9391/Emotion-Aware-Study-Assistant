@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "C:\Users\tejrt\Emotion-aware-study-Assistant\app.py", line 10, in <module>
+    from deepface import DeepFace
+ModuleNotFoundError: No module named 'deepface'

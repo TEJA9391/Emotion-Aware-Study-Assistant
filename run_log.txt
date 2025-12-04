@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\Users\tejrt\Emotion-aware-study-Assistant\app.py", line 6, in <module>
+    from voice_analyzer import VoiceAnalyzer
+  File "C:\Users\tejrt\Emotion-aware-study-Assistant\voice_analyzer.py", line 3, in <module>
+    import librosa
+ModuleNotFoundError: No module named 'librosa'
