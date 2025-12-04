@@ -5,6 +5,9 @@ import numpy as np
 from datetime import datetime
 from voice_analyzer import VoiceAnalyzer
 from study_recommendations import StudyRecommendations
+import base64
+import cv2
+from deepface import DeepFace
 
 try:
     from emotion_detector import EmotionDetector
@@ -27,8 +30,9 @@ emotion_detector = EmotionDetector()
 voice_analyzer = VoiceAnalyzer()
 study_recommender = StudyRecommendations()
 
-# Ensure data directories exist
-os.makedirs('data/user_sessions', exist_ok=True)
+# Global in-memory storage for sessions
+# Data will be lost when server restarts
+user_sessions = []
 
 @app.route('/')
 def index():
@@ -42,25 +46,10 @@ def dashboard():
 
 @app.route('/analyze_emotion', methods=['POST'])
 def analyze_emotion():
-    """Analyze emotion from uploaded image"""
+    """Analyze emotion from webcam image"""
     try:
         data = request.json
-        image_data = data.get('image')
-        
-        if not image_data:
-            return jsonify({
-                'success': False,
-                'error': 'No image data provided'
-            })
-        
-        # Decode base64 image
-        import base64
-        import cv2
-        from deepface import DeepFace
-        
-        # Remove data URL prefix if present
-        if 'base64,' in image_data:
-            image_data = image_data.split('base64,')[1]
+        image_data = data['image'].split(',')[1]
         
         # Decode image
         image_bytes = base64.b64decode(image_data)
@@ -109,21 +98,16 @@ def analyze_emotion():
             emotion_result['dominant_emotion']
         )
         
-        # Save session data
+        # Create session data object
         session_data = {
             'emotion_analysis': emotion_result,
             'recommendations': recommendations,
             'timestamp': datetime.now().isoformat()
         }
         
-        # Save to file
-        session_id = datetime.now().strftime('%Y%m%d_%H%M%S')
-        session_file = f'data/user_sessions/session_{session_id}.json'
-        
-        with open(session_file, 'w') as f:
-            json.dump(session_data, f, indent=2)
-        
-        print(f"Session saved to: {session_file}")
+        # Save to in-memory list instead of file
+        user_sessions.append(session_data)
+        print("Emotion session saved to memory")
         
         return jsonify({
             'success': True,
@@ -152,10 +136,7 @@ def analyze_voice():
                     'error': 'No audio file provided'
                 })
             
-            audio_file = request.files['audio']
-            
             # For now, return a simple analysis since we can't easily process audio on server
-            # In production, you'd use speech recognition services
             return jsonify({
                 'success': True,
                 'text': 'Audio received (server-side transcription not implemented)',
@@ -185,44 +166,21 @@ def analyze_voice():
                 'timestamp': datetime.now().isoformat()
             }
             
-            # Generate recommendations based on stress
-            recommendations = {
-                'emotion': 'stress_' + stress_level.lower(),
-                'study_tips': [
-                    'Take a deep breath and speak slowly.',
-                    'Break your study session into smaller chunks.',
-                    'Drink some water to stay hydrated.'
-                ] if stress_level == 'High' else [
-                    'You sound calm, great time to study complex topics!',
-                    'Maintain this steady pace.',
-                    'Record yourself explaining concepts to reinforce learning.'
-                ],
-                'motivational_quote': "Your voice is your power. Use it to articulate your brilliance." if stress_level == 'Low' else "Calmness is the cradle of power.",
-                'recommended_activities': ['Breathing exercises', 'Light stretching']
-            }
-            
-            # Save session data
+            # Create session data object
             session_data = {
                 'voice_analysis': voice_result,
-                'recommendations': recommendations,
                 'timestamp': datetime.now().isoformat()
             }
             
-            # Save to file
-            session_id = datetime.now().strftime('%Y%m%d_%H%M%S')
-            session_file = f'data/user_sessions/session_{session_id}.json'
-            
-            with open(session_file, 'w') as f:
-                json.dump(session_data, f, indent=2)
-                
-            print(f"Voice session saved to: {session_file}")
+            # Save to in-memory list instead of file
+            user_sessions.append(session_data)
+            print("Voice session saved to memory")
             
             return jsonify({
                 'success': True,
                 'text': transcript,
                 'stress_level': stress_level,
                 'energy_level': word_count * 5.0,
-                'recommendations': recommendations,
                 'timestamp': datetime.now().isoformat()
             })
             
@@ -238,10 +196,9 @@ def get_recommendations():
     """Get study recommendations based on emotion and stress"""
     try:
         data = request.json
-        emotion = data.get('emotion', 'neutral')
-        stress_level = data.get('stress_level')
+        emotion = data.get('emotion')
         
-        recommendations = study_recommender.get_recommendations(emotion, stress_level)
+        recommendations = study_recommender.get_recommendations(emotion)
         
         return jsonify({
             'success': True,
@@ -256,32 +213,23 @@ def get_recommendations():
 
 @app.route('/session_history')
 def session_history():
-    """Get user session history"""
+    """Get user session history from memory"""
     try:
         print("Session history route called")  # Debug
-        sessions = []
-        session_dir = 'data/user_sessions'
         
-        print(f"Checking directory: {session_dir}")  # Debug
-        print(f"Directory exists: {os.path.exists(session_dir)}")  # Debug
+        # Return sessions sorted by timestamp (newest first)
+        # We use a copy to avoid modifying the original list during sort
+        sorted_sessions = sorted(
+            user_sessions, 
+            key=lambda x: x.get('timestamp', ''), 
+            reverse=True
+        )
         
-        if os.path.exists(session_dir):
-            files = sorted(os.listdir(session_dir), reverse=True)
-            print(f"Found {len(files)} files")  # Debug
-            
-            for filename in files:
-                if filename.endswith('.json'):
-                    filepath = os.path.join(session_dir, filename)
-                    print(f"Loading: {filepath}")  # Debug
-                    with open(filepath, 'r') as f:
-                        session_data = json.load(f)
-                        sessions.append(session_data)
-        
-        print(f"Returning {len(sessions)} sessions")  # Debug
+        print(f"Returning {len(sorted_sessions)} sessions from memory")  # Debug
         
         return jsonify({
             'success': True,
-            'sessions': sessions[:50]  # Return last 50 sessions
+            'sessions': sorted_sessions[:50]  # Return last 50 sessions
         })
         
     except Exception as e:
@@ -292,6 +240,4 @@ def session_history():
         })
 
 if __name__ == '__main__':
-    print("Starting Emotion-Aware Study Assistant...")
-    print("Server running at http://localhost:5000")
-    app.run(debug=True, port=5000)
+    app.run(debug=True)

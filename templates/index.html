@@ -6,70 +6,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion-Aware Study Assistant</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
         <header>
             <h1>🎓 Emotion-Aware Study Assistant</h1>
-            <p>Your intelligent learning companion that adapts to your emotional state</p>
+            <p class="subtitle">Optimize your learning based on your emotional state</p>
         </header>
 
         <main>
-            <section class="intro-section">
-                <h2>How it works</h2>
-                <div class="features">
-                    <div class="feature">
-                        <div class="feature-icon">😊</div>
-                        <h3>Emotion Detection</h3>
-                        <p>Uses your webcam to analyze facial expressions and detect your current emotional state</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">🎤</div>
-                        <h3>Voice Analysis</h3>
-                        <p>Analyzes your voice tone to understand stress levels and emotional patterns</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">📚</div>
-                        <h3>Personalized Recommendations</h3>
-                        <p>Provides tailored study tips, motivational quotes, and learning strategies</p>
-                    </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">🎭</div>
+                    <h3>Emotion Detection</h3>
+                    <p>Analyze your facial expressions to understand your current study mood.</p>
                 </div>
-            </section>
-
-            <section class="action-section">
-                <h2>Start Your Analysis</h2>
-                <div class="analysis-options">
-                    <button onclick="startEmotionAnalysis()" class="btn btn-primary">
-                        Start Emotion Analysis
-                    </button>
-                    <button onclick="startVoiceAnalysis()" class="btn btn-secondary">
-                        Analyze Voice Tone
-                    </button>
-                    <a href="/dashboard" class="btn btn-accent">
-                        View Dashboard
-                    </a>
+                <div class="feature-card">
+                    <div class="icon">🎤</div>
+                    <h3>Voice Analysis</h3>
+                    <p>Detect stress levels in your voice to prevent burnout.</p>
                 </div>
-            </section>
+                <div class="feature-card">
+                    <div class="icon">💡</div>
+                    <h3>Smart Tips</h3>
+                    <p>Get personalized study recommendations based on your state.</p>
+                </div>
+            </div>
 
-            <!-- Hidden video for webcam capture -->
-            <video id="webcam" autoplay style="display: none;" width="640" height="480"></video>
-            <canvas id="canvas" style="display: none;" width="640" height="480"></canvas>
+            <div class="actions-section">
+                <button onclick="startEmotionAnalysis()" class="btn btn-primary">
+                    Start Emotion Analysis
+                </button>
+                <button onclick="startVoiceAnalysis()" class="btn btn-secondary">
+                    Analyze Voice Tone
+                </button>
+                <a href="/dashboard" class="btn btn-outline">View Dashboard</a>
+            </div>
 
-            <section id="results-section" class="results-section" style="display: none;">
+            <!-- Hidden video element for webcam capture -->
+            <video id="video" style="display:none;" autoplay playsinline></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+
+            <div id="results-section" class="results-section" style="display: none;">
                 <h2>Your Analysis Results</h2>
-                <div id="emotion-results"></div>
-                <div id="voice-results"></div>
-                <div id="recommendations-results"></div>
-            </section>
+
+                <div id="emotion-results" class="result-box">
+                    <!-- Emotion results will appear here -->
+                </div>
+
+                <div id="voice-results" class="result-box">
+                    <!-- Voice results will appear here -->
+                </div>
+
+                <div id="recommendations-results" class="result-box">
+                    <!-- Recommendations will appear here -->
+                </div>
+            </div>
         </main>
     </div>
 
+    <!-- Loading Modal -->
     <div id="loading-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="loader"></div>
-            <p>Analyzing your emotions... Please look at the camera</p>
-            <button onclick="stopAnalysis()" class="btn btn-small">Stop Analysis</button>
+            <p>Analyzing... Please wait</p>
+            <button onclick="stopAnalysis()" class="btn btn-small" style="margin-top: 15px;">Stop</button>
         </div>
     </div>
 

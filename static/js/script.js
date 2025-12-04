@@ -211,12 +211,26 @@ async function startVoiceAnalysis() {
 
         recognition.onerror = (event) => {
             console.error('Speech recognition error:', event.error);
-            alert('Speech recognition error: ' + event.error);
+            let msg = 'Error: ' + event.error;
+            if (event.error === 'not-allowed') {
+                msg = 'Microphone access denied. Please allow microphone access.';
+            } else if (event.error === 'no-speech') {
+                msg = 'No speech detected. Please try again and speak clearly.';
+            } else if (event.error === 'network') {
+                msg = 'Network error. Please check your internet connection.';
+            }
+            alert(msg);
             document.getElementById('loading-modal').style.display = 'none';
         };
 
         recognition.onend = () => {
             console.log('Speech recognition ended');
+            // If modal is still open and no result, close it
+            // setTimeout(() => {
+            //     if (document.getElementById('loading-modal').style.display === 'flex') {
+            //         document.getElementById('loading-modal').style.display = 'none';
+            //     }
+            // }, 1000);
         };
 
         recognition.start();
@@ -289,15 +303,6 @@ function stopCurrentAnalysis() {
     stopAnalysis();
 }
 
-// Stop video stream
-function stopVideoStream() {
-    if (videoStream) {
-        videoStream.getTracks().forEach(track => track.stop());
-        videoStream = null;
-    }
-    isAnalyzing = false;
-}
-
 // Dashboard functions
 async function loadSessionHistory() {
     try {
@@ -340,103 +345,109 @@ function displaySessionHistory(sessions) {
 
     sessions.forEach((session, index) => {
         const timestamp = new Date(session.timestamp).toLocaleString();
-        const recommendations = session.recommendations || {};
-        let recsPreview = '';
-
-        if (recommendations.study_tips && recommendations.study_tips.length > 0) {
-            recsPreview = recommendations.study_tips[0];
-        }
-
-        let sessionContent = '';
+        let content = '';
+        let typeIcon = '';
 
         if (session.emotion_analysis) {
+            typeIcon = '🎭';
             const emotion = session.emotion_analysis.dominant_emotion;
             const totalDetections = session.emotion_analysis.total_detections;
             const emotionPercentages = session.emotion_analysis.emotion_percentages || {};
 
             let emotionBreakdown = '';
             for (const [emo, percentage] of Object.entries(emotionPercentages)) {
-                emotionBreakdown += `<span style="display:inline-block; margin:2px 5px;">${emo}: ${percentage.toFixed(1)}%</span>`;
+                if (percentage > 5) { // Only show significant emotions
+                    emotionBreakdown += `<span style="display:inline-block; margin:2px 5px;">${emo}: ${percentage.toFixed(1)}%</span>`;
+                }
             }
 
-            sessionContent = `
+            content = `
                 <div class="session-emotion" style="margin-bottom: 5px;">
                     <strong>Emotion:</strong> ${emotion.toUpperCase()} (${totalDetections} detections)
                 </div>
                 ${emotionBreakdown ? `<div style="font-size: 0.85rem; color: #555; margin-bottom: 8px;">${emotionBreakdown}</div>` : ''}
             `;
-        } else if (session.voice_analysis) {
-            const stress = session.voice_analysis.stress_level;
-            const transcript = session.voice_analysis.text || '';
 
-            sessionContent = `
+            if (session.recommendations && session.recommendations.study_tips) {
+                const tip = session.recommendations.study_tips[0];
+                content += `<div style="font-size: 0.9rem; font-style: italic; color: #444; margin-top: 8px;">💡 ${tip}</div>`;
+            }
+
+        } else if (session.voice_analysis) {
+            typeIcon = '🎤';
+            const voice = session.voice_analysis;
+            content = `
                 <div class="session-voice" style="margin-bottom: 5px;">
-                    <strong>Voice Analysis:</strong> Stress Level <span class="stress-${stress.toLowerCase()}">${stress.toUpperCase()}</span>
+                    <strong>Voice Stress:</strong> ${voice.stress_level}
                 </div>
-                ${transcript ? `<div style="font-size: 0.85rem; color: #555; margin-bottom: 8px;">"${transcript}"</div>` : ''}
+                <div style="font-size: 0.9rem; color: #555;">
+                    <em>"${voice.text}"</em>
+                </div>
             `;
         }
 
         historyHTML += `
-            <div class="session-item" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+            <div class="session-item" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid ${typeIcon === '🎭' ? '#4a90e2' : '#e24a90'};">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <strong>Session #${sessions.length - index}</strong>
+                    <strong>${typeIcon} Session #${sessions.length - index}</strong>
                     <span style="color: #666; font-size: 0.9rem;">${timestamp}</span>
                 </div>
-                ${sessionContent}
-                ${recsPreview ? `<div style="font-size: 0.9rem; font-style: italic; color: #444; margin-top: 8px;">💡 ${recsPreview}</div>` : ''}
+                ${content}
             </div>
         `;
     });
 
     historyDiv.innerHTML = historyHTML;
 
-    // Update current status with the latest session
-    if (sessions.length > 0) {
-        updateCurrentStatus(sessions[0]);
-    }
+    // Update current status with the latest data
+    updateCurrentStatus(sessions);
 }
 
-function updateCurrentStatus(session) {
+function updateCurrentStatus(sessions) {
     const statusDiv = document.getElementById('current-status');
     const recsDiv = document.getElementById('current-recommendations');
 
+    if (!sessions || sessions.length === 0) return;
+
+    // Find latest emotion and voice sessions
+    const latestEmotionSession = sessions.find(s => s.emotion_analysis);
+    const latestVoiceSession = sessions.find(s => s.voice_analysis);
+
     if (statusDiv) {
         let statusHTML = '';
-        const timestamp = new Date(session.timestamp).toLocaleString();
 
-        if (session.emotion_analysis) {
-            const emotion = session.emotion_analysis.dominant_emotion;
-            statusHTML = `
-                <div class="status-item">
-                    <p><strong>Latest Emotion:</strong> ${emotion.toUpperCase()}</p>
-                    <p class="text-small">Recorded: ${timestamp}</p>
-                </div>
-            `;
-        } else if (session.voice_analysis) {
-            const stress = session.voice_analysis.stress_level;
-            statusHTML = `
-                <div class="status-item">
-                    <p><strong>Voice Stress:</strong> ${stress.toUpperCase()}</p>
-                    <p class="text-small">Recorded: ${timestamp}</p>
-                </div>
-            `;
-        } else {
-            statusHTML = `
-                <div class="status-item">
-                    <p><strong>Latest Analysis:</strong> Unknown</p>
-                    <p class="text-small">Recorded: ${timestamp}</p>
+        if (latestEmotionSession) {
+            const emotion = latestEmotionSession.emotion_analysis.dominant_emotion;
+            const time = new Date(latestEmotionSession.timestamp).toLocaleTimeString();
+            statusHTML += `
+                <div class="status-item" style="margin-bottom: 10px;">
+                    <p><strong>🎭 Latest Emotion:</strong> ${emotion.toUpperCase()}</p>
+                    <p class="text-small">Time: ${time}</p>
                 </div>
             `;
         }
 
-        statusDiv.innerHTML = statusHTML + `
-            <button onclick="refreshStatus()" class="btn btn-small" style="margin-top: 10px;">Refresh</button>
-        `;
+        if (latestVoiceSession) {
+            const stress = latestVoiceSession.voice_analysis.stress_level;
+            const time = new Date(latestVoiceSession.timestamp).toLocaleTimeString();
+            statusHTML += `
+                <div class="status-item">
+                    <p><strong>🎤 Voice Stress:</strong> ${stress}</p>
+                    <p class="text-small">Time: ${time}</p>
+                </div>
+            `;
+        }
+
+        if (!statusHTML) {
+            statusHTML = '<p>No recent analysis</p>';
+        }
+
+        statusHTML += '<button onclick="refreshStatus()" class="btn btn-small" style="margin-top: 10px;">Refresh</button>';
+        statusDiv.innerHTML = statusHTML;
     }
 
-    if (recsDiv && session.recommendations) {
-        const recs = session.recommendations;
+    if (recsDiv && latestEmotionSession && latestEmotionSession.recommendations) {
+        const recs = latestEmotionSession.recommendations;
         let html = '';
 
         if (recs.motivational_quote) {
