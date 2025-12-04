@@ -1,176 +1,137 @@
-# 🧠 Emotion-Aware Study Assistant
+# Emotion-Aware Study Assistant
 
-An intelligent AI-powered study companion that monitors your emotional state and facial expressions in real-time to optimize your learning experience. Built with Flask, OpenCV, and modern web technologies.
+A Flask-based web application that analyzes your emotional state through facial recognition and voice analysis to provide personalized study recommendations.
 
-![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Flask](https://img.shields.io/badge/Flask-2.0+-green.svg)
-![OpenCV](https://img.shields.io/badge/OpenCV-4.5+-red.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+## Features
 
-## ✨ Features
+- **Real-time Emotion Detection**: Uses DeepFace and TensorFlow to analyze facial expressions via webcam
+- **Voice Tone Analysis**: Analyzes voice patterns and stress levels through microphone input
+- **Personalized Study Recommendations**: Provides tailored study tips based on detected emotional state
+- **Session History Dashboard**: Track all past analysis sessions with detailed breakdowns
+- **Comprehensive Emotion Breakdown**: Shows percentage distribution of detected emotions
 
-### 🎭 Emotion Detection
-- **Real-time facial emotion recognition** using advanced CV models
-- Detects 7 emotions: Happy, Sad, Angry, Surprised, Neutral, Fear, Disgust
-- Continuous monitoring and analysis during study sessions
+## Technologies Used
 
-### 🎤 Voice Analysis
-- Speech-to-text transcription
-- Emotion detection from voice tone and patterns
-- Voice command support for hands-free control
+- **Backend**: Flask (Python)
+- **Emotion Detection**: DeepFace, TensorFlow, OpenCV
+- **Voice Analysis**: SpeechRecognition, PyAudio, Librosa
+- **Frontend**: HTML, CSS, JavaScript
+- **Data Storage**: JSON files for session history
 
-### 📊 Study Session Analytics
-- Track your focus levels over time
-- Detailed emotion history and patterns
-- Session duration and productivity metrics
-- Visual charts and insights
-
-### 🎯 Smart Recommendations
-- Personalized study tips based on your emotional state
-- Break reminders when stress is detected
-- Motivational support during low-energy periods
-
-### 🎨 Modern UI/UX
-- Clean, responsive design
-- Gradient backgrounds and smooth animations
-- Real-time emotion display with emoji indicators
-- Mobile-friendly interface
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-```bash
-Python 3.8+
-pip (Python package manager)
-Webcam (for face detection)
-Microphone (for voice analysis)
-```
-
-### Installation
+## Installation
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/TEJA9391/emotion-aware-study-assistant.git
-cd emotion-aware-study-assistant
+git clone <your-repo-url>
+cd folder1
 ```
 
-2. **Install dependencies**
+2. **Create and activate virtual environment**
+```bash
+python -m venv venv
+venv\Scripts\activate  # Windows
+```
+
+3. **Install dependencies**
 ```bash
 pip install -r requirements.txt
+pip install tf-keras  # Required for TensorFlow 2.20+
 ```
 
-3. **Run the application**
+## Usage
+
+### Start the Application
+
+**Option 1: Using batch file**
+```bash
+run.bat
+```
+
+**Option 2: Manual start**
 ```bash
 python app.py
 ```
 
-4. **Open your browser**
-```
-Navigate to: http://localhost:5000
-```
+The application will be available at `http://localhost:5000`
 
-## 📦 Dependencies
+### Features Usage
 
-- **Flask** - Web framework
-- **OpenCV (cv2)** - Computer vision and face detection
-- **fer** - Facial Emotion Recognition
-- **SpeechRecognition** - Voice to text conversion
-- **NumPy** - Numerical computations
-- **Additional libraries**: See `requirements.txt`
+1. **Emotion Analysis**
+   - Click "Start Emotion Analysis"
+   - Allow camera access
+   - Look at webcam for 10 seconds
+   - View results and recommendations
 
-## 🎯 Usage
+2. **Voice Analysis**
+   - Click "Analyze Voice Tone"
+   - Allow microphone access
+   - Speak clearly for 5 seconds
+   - View stress level and analysis
 
-1. **Start a Study Session**
-   - Click "Start Studying" on the home page
-   - Grant camera and microphone permissions when prompted
+3. **Dashboard**
+   - Click "View Dashboard"
+   - See all past analysis sessions
+   - Quick emotion/voice checks
+   - View recommendations
 
-2. **Monitor Your Emotions**
-   - Your current emotion is displayed in real-time
-   - View emotion history in the sidebar
-   - Check focus levels and analytics
-
-3. **Use Voice Commands**
-   - Click the microphone icon to activate voice input
-   - Say commands like "take a break" or "how am I doing?"
-
-4. **End Session**
-   - Click "End Session" to view your complete study analytics
-   - Review recommendations for future sessions
-
-## 📸 Screenshots
-
-### Main Study Interface
-The clean, modern interface displays real-time emotion detection with smooth animations.
-
-### Analytics Dashboard
-Track your emotional patterns and study effectiveness over time.
-
-## 🛠️ Technology Stack
-
-| Technology | Purpose |
-|------------|---------|
-| Python | Backend logic |
-| Flask | Web framework |
-| OpenCV | Face detection |
-| FER | Emotion recognition |
-| HTML/CSS/JS | Frontend interface |
-| Chart.js | Data visualization |
-| SpeechRecognition | Voice analysis |
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-emotion-aware-study-assistant/
-├── app.py                  # Main Flask application
-├── requirements.txt        # Python dependencies
-├── templates/
-│   └── index.html         # Main UI template
-├── static/
+folder1/
+├── app.py                      # Main Flask application
+├── emotion_detector.py         # Emotion detection logic
+├── voice_analyzer.py           # Voice analysis logic
+├── study_recommendations.py    # Recommendation engine
+├── requirements.txt            # Python dependencies
+├── run.bat                     # Quick start script
+├── templates/                  # HTML templates
+│   ├── index.html
+│   └── dashboard.html
+├── static/                     # Static files
 │   ├── css/
-│   │   └── style.css      # Styles
+│   │   └── style.css
 │   └── js/
-│       └── script.js      # Frontend logic
-└── README.md              # Documentation
+│       └── script.js
+└── data/
+    └── user_sessions/          # Saved analysis sessions
 ```
 
-## 🤝 Contributing
+## Dependencies
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- Flask >= 2.3.3
+- opencv-python >= 4.8.1
+- deepface >= 0.0.79
+- tensorflow >= 2.13.0
+- tf-keras (for TensorFlow 2.20+)
+- SpeechRecognition >= 3.10.0
+- pyaudio >= 0.2.11
+- librosa >= 0.10.0
+- numpy >= 1.24.3
+- pillow >= 10.0.1
+- matplotlib >= 3.7.2
+- requests >= 2.31.0
+- numba >= 0.56.0
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Session Data
 
-## 📝 License
+All analysis sessions are automatically saved in `data/user_sessions/` as JSON files containing:
+- Emotion analysis results with percentages
+- Study recommendations
+- Motivational quotes
+- Recommended activities
+- Timestamps
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Notes
 
-## 👨‍💻 Author
+- First run may take longer as DeepFace downloads required models
+- Requires working webcam for emotion analysis
+- Requires working microphone for voice analysis
+- Chrome/Edge recommended for best camera/microphone support
 
-**TEJA9391**
-- GitHub: [@TEJA9391](https://github.com/TEJA9391)
-- Email: tejrtej9347@gmail.com
+## Author
 
-## 🙏 Acknowledgments
+Teja (tejrtej9347@gmail.com)
 
-- FER library for emotion recognition
-- OpenCV community
-- Flask framework developers
+## License
 
-## 🔮 Future Enhancements
-
-- [ ] Machine learning model for personalized recommendations
-- [ ] Multi-user support with profiles
-- [ ] Mobile app version
-- [ ] Integration with calendar and task management
-- [ ] Advanced analytics with ML insights
-- [ ] Export study reports to PDF
-
----
-
-⭐ If you find this project helpful, please consider giving it a star!
-
-**Made with ❤️ by TEJA9391**
+MIT License
